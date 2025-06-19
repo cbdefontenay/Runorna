@@ -1,107 +1,112 @@
-/* App-wide styling */
-body {
-    background-color: #0f1116;
-    color: #ffffff;
+:root, .standard {
+    --primary: rgb(76 92 146);
+    --surface-tint: rgb(76 92 146);
+    --on-primary: rgb(255 255 255);
+    --primary-container: rgb(220 225 255);
+    --on-primary-container: rgb(52 68 121);
+    --secondary: rgb(68 94 145);
+    --on-secondary: rgb(255 255 255);
+    --secondary-container: rgb(216 226 255);
+    --on-secondary-container: rgb(43 70 120);
+    --tertiary: rgb(52 97 141);
+    --on-tertiary: rgb(255 255 255);
+    --tertiary-container: rgb(208 228 255);
+    --on-tertiary-container: rgb(22 73 116);
+    --error: rgb(144 74 67);
+    --on-error: rgb(255 255 255);
+    --error-container: rgb(255 218 214);
+    --on-error-container: rgb(115 51 45);
+    --background: rgb(250 248 255);
+    --on-background: rgb(26 27 33);
+    --surface: rgb(250 248 255);
+    --on-surface: rgb(26 27 33);
+    --surface-variant: rgb(226 225 236);
+    --on-surface-variant: rgb(69 70 79);
+    --outline: rgb(118 118 128);
+    --outline-variant: rgb(198 198 208);
+    --shadow: rgb(0 0 0);
+    --scrim: rgb(0 0 0);
+    --inverse-surface: rgb(47 48 54);
+    --inverse-on-surface: rgb(241 240 247);
+    --inverse-primary: rgb(182 196 255);
+    --primary-fixed: rgb(220 225 255);
+    --on-primary-fixed: rgb(3 23 75);
+    --primary-fixed-dim: rgb(182 196 255);
+    --on-primary-fixed-variant: rgb(52 68 121);
+    --secondary-fixed: rgb(216 226 255);
+    --on-secondary-fixed: rgb(0 26 66);
+    --secondary-fixed-dim: rgb(173 198 255);
+    --on-secondary-fixed-variant: rgb(43 70 120);
+    --tertiary-fixed: rgb(208 228 255);
+    --on-tertiary-fixed: rgb(0 29 53);
+    --tertiary-fixed-dim: rgb(159 202 252);
+    --on-tertiary-fixed-variant: rgb(22 73 116);
+    --surface-dim: rgb(218 217 224);
+    --surface-bright: rgb(250 248 255);
+    --surface-container-lowest: rgb(255 255 255);
+    --surface-container-low: rgb(244 243 250);
+    --surface-container: rgb(238 237 244);
+    --surface-container-high: rgb(232 231 239);
+    --surface-container-highest: rgb(227 226 233);
+}
+
+.dark {
+    ---primary: rgb(182 196 255);
+    ---surface-tint: rgb(182 196 255);
+    ---on-primary: rgb(29 45 97);
+    ---primary-container: rgb(52 68 121);
+    ---on-primary-container: rgb(220 225 255);
+    ---secondary: rgb(173 198 255);
+    ---on-secondary: rgb(17 47 96);
+    ---secondary-container: rgb(43 70 120);
+    ---on-secondary-container: rgb(216 226 255);
+    ---tertiary: rgb(159 202 252);
+    ---on-tertiary: rgb(0 50 87);
+    ---tertiary-container: rgb(22 73 116);
+    ---on-tertiary-container: rgb(208 228 255);
+    ---error: rgb(255 180 171);
+    ---on-error: rgb(86 30 25);
+    ---error-container: rgb(115 51 45);
+    ---on-error-container: rgb(255 218 214);
+    ---background: rgb(18 19 24);
+    ---on-background: rgb(227 225 233);
+    ---surface: rgb(18 19 24);
+    ---on-surface: rgb(227 226 233);
+    ---surface-variant: rgb(69 70 79);
+    ---on-surface-variant: rgb(198 198 208);
+    ---outline: rgb(143 144 154);
+    ---outline-variant: rgb(69 70 79);
+    ---shadow: rgb(0 0 0);
+    ---scrim: rgb(0 0 0);
+    ---inverse-surface: rgb(227 226 233);
+    ---inverse-on-surface: rgb(47 48 54);
+    ---inverse-primary: rgb(76 92 146);
+    ---primary-fixed: rgb(220 225 255);
+    ---on-primary-fixed: rgb(3 23 75);
+    ---primary-fixed-dim: rgb(182 196 255);
+    ---on-primary-fixed-variant: rgb(52 68 121);
+    ---secondary-fixed: rgb(216 226 255);
+    ---on-secondary-fixed: rgb(0 26 66);
+    ---secondary-fixed-dim: rgb(173 198 255);
+    ---on-secondary-fixed-variant: rgb(43 70 120);
+    ---tertiary-fixed: rgb(208 228 255);
+    ---on-tertiary-fixed: rgb(0 29 53);
+    ---tertiary-fixed-dim: rgb(159 202 252);
+    ---on-tertiary-fixed-variant: rgb(22 73 116);
+    ---surface-dim: rgb(18 19 24);
+    ---surface-bright: rgb(56 57 63);
+    ---surface-container-lowest: rgb(13 14 19);
+    ---surface-container-low: rgb(26 27 33);
+    ---surface-container: rgb(30 31 37);
+    ---surface-container-high: rgb(41 42 47);
+    ---surface-container-highest: rgb(51 52 58);
+}
+
+html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 20px;
-}
-
-#hero {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#links {
-    width: 400px;
-    text-align: left;
-    font-size: x-large;
-    color: white;
-    display: flex;
-    flex-direction: column;
-}
-
-#links a {
-    color: white;
-    text-decoration: none;
-    margin-top: 20px;
-    margin: 10px 0px;
-    border: white 1px solid;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-#links a:hover {
-    background-color: #1f1f1f;
-    cursor: pointer;
-}
-
-#header {
-    max-width: 1200px;
-}
-
-/* Navbar */
-#navbar {
-    display: flex;
-    flex-direction: row;
-  }
-  
-#navbar a {
-    color: #ffffff;
-    margin-right: 20px;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-#navbar a:hover {
-    cursor: pointer;
-    color: #91a4d2;
-}
-
-/* Blog page */
-#blog {
-    margin-top: 50px;
-  }
-  
-#blog a {
-    color: #ffffff;
-    margin-top: 50px;
-}
-
-/* Echo */
-#echo {
-    width: 360px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    background-color: #1e222d;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-#echo>h4 {
-    margin: 0px 0px 15px 0px;
-}
-
-
-#echo>input {
-    border: none;
-    border-bottom: 1px white solid;
-    background-color: transparent;
-    color: #ffffff;
-    transition: border-bottom-color 0.2s ease;
-    outline: none;
-    display: block;
-    padding: 0px 0px 5px 0px;
-    width: 100%;
-}
-
-#echo>input:focus {
-    border-bottom-color: #6d85c6;
-}
-
-#echo>p {
-    margin: 20px 0px 0px auto;
+    padding: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    background-color: var(--background);
 }

@@ -1,9 +1,10 @@
 [application]
+icon = ["ilogo.png"]
 
 [web.app]
 
 # HTML title tag content
-title = "torex"
+title = "Torex"
 
 # include `assets` in web platform
 [web.resource]
@@ -19,3 +20,8 @@ script = []
 # Javascript code file
 # serve: [dev-server] only
 script = []
+
+[bundle]
+identifier = "com.torex"
+publisher = "Torex"
+icon = ["logo.png"]
