@@ -1,5 +1,6 @@
 mod components;
 mod pages;
+mod syntax;
 
 use crate::components::NavbarComponent;
 use crate::pages::HomePage;
