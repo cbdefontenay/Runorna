@@ -8,12 +8,8 @@ edition = "2021"
 ammonia = "4.1.0"
 comrak = "0.39.0"
 dioxus = { version = "0.7.0-alpha.1", features = ["router", "fullstack"] }
-markdown = "1.0.0"
-mdx-gen = "0.0.1"
 pulldown-cmark = "0.13.0"
-html-escape = "0.2.13"
 syntect = "5.2.0"
-regex = "1.11.1"
 
 [features]
 default = ["desktop"]

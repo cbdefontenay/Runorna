@@ -26,9 +26,6 @@ pub fn NavbarComponent() -> Element {
                 }
             }
         }
-        main {
-                class: "pl-64",
-                Outlet::<Route> {}
-            }
+        main { class: "pl-64", Outlet::<Route> {} }
     }
 }
