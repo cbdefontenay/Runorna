@@ -1,123 +1,84 @@
-use crate::syntax::markdown_to_html;
-use ammonia::Builder;
 use dioxus::prelude::*;
-use crate::components::ButtonComponent;
 
 #[component]
 pub fn HomePage() -> Element {
-    let mut user_input_markdown = use_signal(|| "".to_string());
-    let theme = use_signal(|| "base16-eighties.dark".to_string());
+    let mut show_dialog = use_signal(|| false);
+    let mut folders = use_signal(|| Vec::<String>::new());
+    let mut new_folder_name = use_signal(|| String::new());
 
-    let custom_html = markdown_to_html(&user_input_markdown(), &theme());
-
-    let sanitized_html = Builder::default()
-        .add_tags([
-            "pre", "code", "span", "input", "label", "div", "section", "article", "table", "thead",
-            "tbody", "tfoot", "tr", "th", "td", "del", "ins", "mark", "sup", "sub", "details",
-            "summary", "math", "mrow", "mi", "mo", "mn", "msup", "msub", "msubsup", "mfrac",
-        ])
-        .add_tag_attributes("input", ["type", "checked", "disabled"].into_iter())
-        .add_generic_attributes(["class", "style", "id", "aria-hidden", "data-*"].into_iter())
-        .url_relative(ammonia::UrlRelative::PassThrough)
-        .clean(&custom_html)
-        .to_string();
+    let mut submit_folder = move |_| {
+        if !new_folder_name().is_empty() {
+            folders.with_mut(|f| f.push(new_folder_name().clone()));
+            new_folder_name.set(String::new());
+            show_dialog.set(false);
+        }
+    };
 
     rsx! {
-        div { class: "min-h-screen bg-[var(--surface-container-lowest)] text-[var(--on-surface)] flex flex-col",
-            header { class: "w-full bg-[var(--surface-container-high)] border-b border-[var(--outline-variant)] px-8 py-4",
-                div { class: "max-w-7xl mx-auto flex justify-between items-center",
-                    h1 { class: "text-2xl font-semibold text-primary", "Code Themes:" }
+        div { class: "flex h-screen w-full bg-[var(--background)]",
+            // Side panel
+            div { class: "w-64 border-r border-[var(--outline-variant)] bg-[var(--surface-container-low)] flex flex-col",
+                // Panel header
+                div { class: "p-4 border-b border-[var(--outline-variant)] flex justify-between items-center",
+                    h2 { class: "text-lg font-medium text-[var(--on-surface)]", "Folders" }
+                    button {
+                        class: "text-[var(--primary)] hover:text-[var(--primary-container)]",
+                        onclick: move |_| show_dialog.set(true),
+                        "+ New"
+                    }
+                }
+                
+                // Folder list
+                div { class: "flex-1 overflow-y-auto p-2",
+                    for folder in folders.read().iter() {
+                        div { class: "group flex items-center py-2 px-3 rounded-lg hover:bg-[var(--surface-container-highest)]",
+                            button { class: "text-[var(--on-surface-variant)] mr-2 opacity-0 group-hover:opacity-100", ">" }
+                            span { class: "text-[var(--on-surface)]", {folder.clone()} }
+                        }
+                    }
+                }
+            }
+            
+            // Main content area
+            div { class: "flex-1 p-8",
+                h1 { class: "text-2xl font-bold text-[var(--on-surface)] mb-4", "Code Notes" }
+                p { class: "text-[var(--on-surface-variant)]", "Select a folder from the sidebar to view or add notes" }
+            }
+            
+            // Dialog overlay
+            if show_dialog() {
+                div { 
+                    class: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50",
+                    onclick: move |_| show_dialog.set(false),
                     
-                    div { class: "flex gap-2",
-                        ButtonComponent {
-                            theme: theme.clone(),
-                            name: "base16-ocean.dark".to_string(),
-                            text: "Ocean".to_string(),
+                    // Dialog container
+                    div { 
+                        class: "bg-[var(--surface)] rounded-xl p-6 shadow-lg w-96",
+                        onclick: move |e| e.stop_propagation(),
+                        
+                        h2 { class: "text-xl font-semibold mb-4 text-[var(--on-surface)]", "Create New Folder" }
+                        
+                        input {
+                            r#type: "text",
+                            class: "border border-[var(--outline-variant)] rounded-lg p-3 w-full mb-4 bg-[var(--surface-container-low)] text-[var(--on-surface)]",
+                            placeholder: "Folder name...",
+                            value: "{new_folder_name}",
+                            oninput: move |e| new_folder_name.set(e.value().clone()),
+                            onkeydown: move |e| if e.key() == Key::Enter { submit_folder(()) },
                         }
-                        ButtonComponent {
-                            theme: theme.clone(),
-                            name: "base16-eighties.dark".to_string(),
-                            text: "Eighties".to_string(),
-                        }
-                        ButtonComponent {
-                            theme: theme.clone(),
-                            name: "base16-mocha.dark".to_string(),
-                            text: "Mocha dark".to_string(),
-                        }
-                        ButtonComponent {
-                            theme: theme.clone(),
-                            name: "InspiredGitHub".to_string(),
-                            text: "GitHub".to_string(),
-                        }
-                        ButtonComponent {
-                            theme: theme.clone(),
-                            name: "base16-ocean.light".to_string(),
-                            text: "Light".to_string(),
-                        }
-                        ButtonComponent {
-                            theme: theme.clone(),
-                            name: "Solarized (dark)".to_string(),
-                            text: "Solarized dark".to_string(),
-                        }
-                        ButtonComponent {
-                            theme: theme.clone(),
-                            name: "Solarized (light)".to_string(),
-                            text: "Solarized light".to_string(),
-                        }
-                    }
-                }
-            }
-
-           main { class: "flex-1 p-8 w-full",
-                div { class: "flex gap-6 h-full min-h-[calc(100vh-8rem)] max-w-7xl mx-auto",
-                    div { class: "w-[50%] flex flex-col",
-                        div { class: "flex items-center justify-between mb-2",
-                            h2 { class: "text-lg font-medium text-[var(--on-surface-variant)]", "Editor" }
-                            div { class: "text-xs text-[var(--on-surface-variant)]",
-                                "{user_input_markdown().chars().count()} characters"
+                        
+                        div { class: "flex justify-end gap-2",
+                            button {
+                                class: "px-4 py-2 rounded-lg text-[var(--on-surface-variant)] hover:bg-[var(--surface-container-high)]",
+                                onclick: move |_| show_dialog.set(false),
+                                "Cancel"
+                            }
+                            button {
+                                class: "px-4 py-2 rounded-lg bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)]",
+                                onclick: move |_| submit_folder(()),
+                                "Create"
                             }
                         }
-                        textarea {
-                            class: "
-                                flex-1 w-full p-6 rounded-xl border border-[var(--outline-variant)]
-                                bg-[var(--surface-container-high)] text-[var(--on-surface)]
-                                text-base font-mono resize-none outline-none
-                                focus:ring-2 focus:ring-primary/50 focus:border-transparent
-                                transition-all shadow-sm
-                            ",
-                            value: "{user_input_markdown()}",
-                            oninput: move |e| user_input_markdown.set(e.value().clone()),
-                            placeholder: "Write your markdown here...",
-                        }
-                    }
-
-                   div { class: "w-[50%] flex flex-col",
-                        div { class: "flex items-center justify-between mb-2",
-                            h2 { class: "text-lg font-medium text-[var(--on-surface-variant)]", "Preview" }
-                            div { class: "text-xs text-[var(--on-surface-variant)]",
-                                "Live rendering"
-                            }
-                        }
-                        div {
-                            class: "
-                                flex-1 w-full p-6 rounded-xl border border-[var(--outline-variant)]
-                                bg-[var(--surface-container-high)] overflow-auto
-                                prose prose-sm max-w-none
-                                transition-all shadow-sm
-                            ",
-                            dangerous_inner_html: "{sanitized_html}",
-                        }
-                    }
-                }
-            }
-
-            footer { class: "w-full bg-[var(--surface-container-high)] border-t border-[var(--outline-variant)] px-8 py-2",
-                div { class: "max-w-7xl mx-auto flex justify-between items-center text-xs text-[var(--on-surface-variant)]",
-                    div { "Codeor v1.0" }
-                    div { class: "flex gap-4",
-                        span { "Markdown supported" }
-                        span { "Syntax highlighting" }
-                        span { "Auto-save" }
                     }
                 }
             }

@@ -6,16 +6,17 @@ edition = "2021"
 
 [dependencies]
 ammonia = "4.1.0"
-comrak = "0.39.0"
 dioxus = { version = "0.7.0-alpha.1", features = ["router", "fullstack"] }
 pulldown-cmark = "0.13.0"
 syntect = "5.2.0"
+rusqlite = { version = "0.36.0", features = ["bundled", "unlock_notify"], optional = true }
 
 [features]
 default = ["desktop"]
 web = ["dioxus/web"]
 desktop = ["dioxus/desktop"]
 mobile = ["dioxus/mobile"]
+server = ["dioxus/server", "dep:rusqlite"]
 
 [profile]
 

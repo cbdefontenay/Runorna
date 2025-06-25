@@ -1,0 +1,59 @@
+:root {
+    --primary: rgb(182 196 255);
+    --surface-tint: rgb(182 196 255);
+    --on-primary: rgb(29 45 97);
+    --primary-container: rgb(52 68 121);
+    --on-primary-container: rgb(220 225 255);
+    --secondary: rgb(173 198 255);
+    --on-secondary: rgb(17 47 96);
+    --secondary-container: rgb(43 70 120);
+    --on-secondary-container: rgb(216 226 255);
+    --tertiary: rgb(159 202 252);
+    --on-tertiary: rgb(0 50 87);
+    --tertiary-container: rgb(22 73 116);
+    --on-tertiary-container: rgb(208 228 255);
+    --error: rgb(255 180 171);
+    --on-error: rgb(86 30 25);
+    --error-container: rgb(115 51 45);
+    --on-error-container: rgb(255 218 214);
+    --background: rgb(18 19 24);
+    --on-background: rgb(227 225 233);
+    --surface: rgb(18 19 24);
+    --on-surface: rgb(227 226 233);
+    --surface-variant: rgb(69 70 79);
+    --on-surface-variant: rgb(198 198 208);
+    --outline: rgb(143 144 154);
+    --outline-variant: rgb(69 70 79);
+    --shadow: rgb(0 0 0);
+    --scrim: rgb(0 0 0);
+    --inverse-surface: rgb(227 226 233);
+    --inverse-on-surface: rgb(47 48 54);
+    --inverse-primary: rgb(76 92 146);
+    --primary-fixed: rgb(220 225 255);
+    --on-primary-fixed: rgb(3 23 75);
+    --primary-fixed-dim: rgb(182 196 255);
+    --on-primary-fixed-variant: rgb(52 68 121);
+    --secondary-fixed: rgb(216 226 255);
+    --on-secondary-fixed: rgb(0 26 66);
+    --secondary-fixed-dim: rgb(173 198 255);
+    --on-secondary-fixed-variant: rgb(43 70 120);
+    --tertiary-fixed: rgb(208 228 255);
+    --on-tertiary-fixed: rgb(0 29 53);
+    --tertiary-fixed-dim: rgb(159 202 252);
+    --on-tertiary-fixed-variant: rgb(22 73 116);
+    --surface-dim: rgb(18 19 24);
+    --surface-bright: rgb(56 57 63);
+    --surface-container-lowest: rgb(13 14 19);
+    --surface-container-low: rgb(26 27 33);
+    --surface-container: rgb(30 31 37);
+    --surface-container-high: rgb(41 42 47);
+    --surface-container-highest: rgb(51 52 58);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    background-color: var(--background);
+}
