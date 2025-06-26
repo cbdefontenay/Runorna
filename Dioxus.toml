@@ -22,6 +22,7 @@ script = []
 script = []
 
 [bundle]
-identifier = "com.torex"
-publisher = "Torex"
-icon = ["logo.png"]
+identifier = "com.codeor"
+publisher = "Codeor"
+resources = ["assets", "src", "target"]
+icon = ["assets/logo.png"]
