@@ -60,9 +60,8 @@ pub fn NavbarComponent() -> Element {
                 class: if *mobile_menu_open.read() { "translate-x-0" } else { "-translate-x-full lg:translate-x-0" },
 
                 // Compact nav items
-                for (item, link, icon_path) in nav_items.iter() {
-                    div {
-                        class: "
+                for (item , link , icon_path) in nav_items.iter() {
+                    div { class: "
                             relative w-12 h-12 flex items-center justify-center
                             rounded-lg hover:bg-[var(--primary-container)/10]
                             active:bg-[var(--primary-container)/20]
@@ -72,8 +71,7 @@ pub fn NavbarComponent() -> Element {
                             to: link.clone(),
                             class: "w-full h-full flex items-center justify-center",
                             // Tooltip container
-                            div {
-                                class: "
+                            div { class: "
                                     absolute left-full ml-2 px-3 py-2
                                     bg-[var(--surface-container-high)] rounded-lg shadow-lg
                                     text-sm font-medium text-[var(--on-surface)]
