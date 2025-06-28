@@ -4,7 +4,7 @@ icon = ["ilogo.png"]
 [web.app]
 
 # HTML title tag content
-title = "Torex"
+title = "Codeor"
 
 # include `assets` in web platform
 [web.resource]

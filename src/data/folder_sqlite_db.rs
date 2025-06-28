@@ -3,6 +3,11 @@ use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "server")]
 thread_local! {
+    static DELETE_COUNTER: std::cell::RefCell<u32> = std::cell::RefCell::new(0);
+}
+
+#[cfg(feature = "server")]
+thread_local! {
     pub static DB: rusqlite::Connection = {
         let conn = rusqlite::Connection::open("folder.db").expect("Failed to open database");
         conn.execute_batch(
@@ -72,9 +77,25 @@ pub async fn update_folder_name(id: i32, new_name: String) -> Result<(), ServerF
 
 #[server]
 pub async fn delete_folder_recursive(id: i32) -> Result<(), ServerFnError> {
-    DB.with(|f| f.execute("DELETE FROM folder WHERE id = ?1 OR parent_id = ?1", [&id]))?;
+    let deleted_count = DB.with(|conn| {
+        conn.execute("DELETE FROM folder WHERE id = ?1 OR parent_id = ?1", [&id])
+    })?;
+
+    DELETE_COUNTER.with(|counter| {
+        let mut count = counter.borrow_mut();
+        *count += deleted_count as u32;
+
+        if *count >= 2 {
+            DB.with(|conn| {
+                conn.execute("VACUUM", []).unwrap();
+            });
+            *count = 0;
+        }
+    });
+
     Ok(())
 }
+
 
 #[server]
 pub async fn get_folders() -> Result<Vec<Folder>, ServerFnError> {

@@ -1,7 +1,7 @@
 [package]
 name = "torex"
 version = "0.1.0"
-authors = ["cyprien"]
+authors = ["Cyprien de Fontenay"]
 edition = "2021"
 
 [dependencies]
@@ -14,10 +14,9 @@ chrono = "0.4.41"
 log = "0.4.27"
 serde = { version = "1.0.219", features = ["derive"] }
 tokio = "1.45.1"
-dioxus-sdk = { version = "0.6.0", features = ["storage"] }
 
 [features]
-default = ["desktop"]
+default = ["desktop", "server"]
 web = ["dioxus/web"]
 desktop = ["dioxus/desktop"]
 mobile = ["dioxus/mobile"]

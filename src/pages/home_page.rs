@@ -1,19 +1,22 @@
 use crate::components::FolderItem;
-use crate::data::{delete_folder_recursive, get_folder_name, get_folders, get_notes, save_folder, update_folder_name, Folder};
+use crate::data::{
+    delete_folder_recursive, get_folder_name, get_folders, get_notes, save_folder,
+    update_folder_name, Folder,
+};
+use crate::helpers::DialogMode;
 use crate::pages::EditorPage;
 use chrono::Local;
 use dioxus::prelude::*;
-use crate::helpers::DialogMode;
 
 #[component]
 pub fn HomePage() -> Element {
-    let mut show_dialog = use_signal(|| false);
-    let mut error_message = use_signal(|| String::new());
-    let mut folders = use_signal(|| Vec::<Folder>::new());
-    let mut new_folder_name = use_signal(|| String::new());
-    let mut loading_error = use_signal(|| None);
-    let mut is_loading = use_signal(|| true);
-    let mut selected_subfolder = use_signal(|| None::<i32>);
+    let mut show_dialog: Signal<bool> = use_signal(|| false);
+    let mut error_message: Signal<String> = use_signal(|| String::new());
+    let mut folders: Signal<Vec<Folder>> = use_signal(|| Vec::<Folder>::new());
+    let mut new_folder_name: Signal<String> = use_signal(|| String::new());
+    let mut loading_error: Signal<Option<String>> = use_signal(|| None);
+    let mut is_loading: Signal<bool> = use_signal(|| true);
+    let mut selected_subfolder: Signal<Option<i32>> = use_signal(|| None::<i32>);
 
     let show_dropdown_for_folder = use_signal(|| Option::<i32>::None);
     let mut dialog_mode = use_signal(|| DialogMode::Create);
@@ -26,7 +29,7 @@ pub fn HomePage() -> Element {
             let _ = get_notes(folder_id).await;
         });
     };
-    
+
     let fetch_folders = move || {
         spawn(async move {
             is_loading.set(true);
