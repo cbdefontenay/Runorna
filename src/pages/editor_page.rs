@@ -7,11 +7,11 @@ use tokio::time::sleep;
 
 #[component]
 pub fn EditorPage(folder_id: i32) -> Element {
-    let mut user_input_markdown = use_signal(|| "".to_string());
-    let mut theme = use_signal(|| "base16-eighties.dark".to_string());
+    let mut user_input_markdown = use_signal(|| String::new());
+    let mut theme = use_signal(|| String::from("base16-eighties.dark"));
     let mut notes = use_signal(|| Vec::<Note>::new());
     let mut current_note_id = use_signal(|| None::<i32>);
-    let mut folder_name = use_signal(|| "".to_string());
+    let mut folder_name = use_signal(|| String::new());
     let mut is_saved_note = use_signal(|| false);
 
     use_effect(move || {
@@ -22,7 +22,6 @@ pub fn EditorPage(folder_id: i32) -> Element {
         });
     });
 
-    // Handle theme changes
     let handle_theme_change = move |new_theme: String| {
         theme.set(new_theme.clone());
         spawn(async move {
@@ -110,43 +109,43 @@ pub fn EditorPage(folder_id: i32) -> Element {
                             theme: theme.clone(),
                             name: "base16-ocean.dark".to_string(),
                             text: "Ocean".to_string(),
-                on_click: handle_theme_change,
+                            on_click: handle_theme_change,
                         }
                         ButtonComponent {
                             theme: theme.clone(),
                             name: "base16-eighties.dark".to_string(),
                             text: "Eighties".to_string(),
-                on_click: handle_theme_change,
+                            on_click: handle_theme_change,
                         }
                         ButtonComponent {
                             theme: theme.clone(),
                             name: "base16-mocha.dark".to_string(),
                             text: "Mocha dark".to_string(),
-                on_click: handle_theme_change,
+                            on_click: handle_theme_change,
                         }
                         ButtonComponent {
                             theme: theme.clone(),
                             name: "InspiredGitHub".to_string(),
                             text: "GitHub".to_string(),
-                on_click: handle_theme_change,
+                            on_click: handle_theme_change,
                         }
                         ButtonComponent {
                             theme: theme.clone(),
                             name: "base16-ocean.light".to_string(),
                             text: "Light".to_string(),
-                on_click: handle_theme_change,
+                            on_click: handle_theme_change,
                         }
                         ButtonComponent {
                             theme: theme.clone(),
                             name: "Solarized (dark)".to_string(),
                             text: "Solarized dark".to_string(),
-                on_click: handle_theme_change,
+                            on_click: handle_theme_change,
                         }
                         ButtonComponent {
                             theme: theme.clone(),
                             name: "Solarized (light)".to_string(),
                             text: "Solarized light".to_string(),
-                on_click: handle_theme_change,
+                            on_click: handle_theme_change,
                         }
                     }
                 }
@@ -213,24 +212,22 @@ pub fn EditorPage(folder_id: i32) -> Element {
                     }
                 }
             }
-
-            // footer { class: "w-full bg-[var(--surface-container-high)] border-t border-[var(--outline-variant)] px-4 sm:px-8 py-2",
-            //     div { class: "max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs text-[var(--on-surface-variant)] gap-2",
-            //         div { "Codeor v1.0" }
-            //         div { class: "flex flex-wrap gap-2 sm:gap-4 justify-center",
-            //             span { "Markdown supported" }
-            //             span { "Syntax highlighting" }
-            //             span { "Auto-save" }
-            //         }
-            //     }
-            // }
+        
+        // footer { class: "w-full bg-[var(--surface-container-high)] border-t border-[var(--outline-variant)] px-4 sm:px-8 py-2",
+        //     div { class: "max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs text-[var(--on-surface-variant)] gap-2",
+        //         div { "Codeor v1.0" }
+        //         div { class: "flex flex-wrap gap-2 sm:gap-4 justify-center",
+        //             span { "Markdown supported" }
+        //             span { "Syntax highlighting" }
+        //             span { "Auto-save" }
+        //         }
+        //     }
+        // }
         }
 
-                if is_saved_note() {
-            div {
-                class: "fixed bottom-4 right-4 z-50",
-                div {
-                    class: "
+        if is_saved_note() {
+            div { class: "fixed bottom-4 right-4 z-50",
+                div { class: "
                         bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)]
                         px-4 py-2 rounded-lg shadow-lg
                         flex items-center gap-2
@@ -241,9 +238,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
                         xmlns: "http://www.w3.org/2000/svg",
                         view_box: "0 0 24 24",
                         fill: "currentColor",
-                        path {
-                            d: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
-                        }
+                        path { d: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" }
                     }
                     span { "Note saved successfully!" }
                 }

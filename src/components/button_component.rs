@@ -17,7 +17,7 @@ pub fn ButtonComponent(
                     "bg-[var(--primary)] text-[var(--on-primary)]"
                 } else {
                     "hover:bg-[var(--surface-container-high)]"
-                }
+                },
             ),
             onclick: move |_| on_click.call(name.clone()),
             {text}

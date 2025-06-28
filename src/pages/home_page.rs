@@ -1,8 +1,9 @@
 use crate::components::FolderItem;
-use crate::data::{delete_folder_recursive, get_folders, save_folder, update_folder_name, Folder};
+use crate::data::{delete_folder_recursive, get_folder_name, get_folders, get_notes, save_folder, update_folder_name, Folder};
 use crate::pages::EditorPage;
 use chrono::Local;
 use dioxus::prelude::*;
+use crate::helpers::DialogMode;
 
 #[component]
 pub fn HomePage() -> Element {
@@ -20,15 +21,12 @@ pub fn HomePage() -> Element {
 
     let handle_select_subfolder = move |folder_id: i32| {
         selected_subfolder.set(Some(folder_id));
+        spawn(async move {
+            let _ = get_folder_name(folder_id).await;
+            let _ = get_notes(folder_id).await;
+        });
     };
-
-    #[derive(PartialEq, Clone, Copy)]
-    enum DialogMode {
-        Create,
-        Update,
-        CreateSubfolder,
-    }
-
+    
     let fetch_folders = move || {
         spawn(async move {
             is_loading.set(true);
