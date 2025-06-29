@@ -10,7 +10,7 @@ pub fn SettingsPage() -> Element {
         to_owned![dark_mode];
         move || {
             spawn(async move {
-                if let Ok((mode, is_dark)) = load_latest_theme().await {
+                if let Ok((_mode, is_dark)) = load_latest_theme().await {
                     dark_mode.set(is_dark);
                     let js = if is_dark {
                         r#"document.getElementById("dark-css").disabled = false;"#
@@ -126,29 +126,6 @@ pub fn SettingsPage() -> Element {
                                     }
                                 }
                             }
-                        }
-
-                        div { class: "border-t border-[var(--outline-variant)] pt-6",
-                            h2 { class: "text-xl font-semibold text-[var(--on-surface)] mb-4",
-                                "Account Settings"
-                            }
-                            div { class: "space-y-4",
-                                div { class: "flex justify-between items-center",
-                                    span { class: "text-[var(--on-surface-variant)]", "Email" }
-                                    span { class: "font-medium", "user@example.com" }
-                                }
-                                div { class: "flex justify-between items-center",
-                                    span { class: "text-[var(--on-surface-variant)]", "Account status" }
-                                    span { class: "font-medium text-[var(--primary)]", "Active" }
-                                }
-                            }
-                        }
-                    }
-
-                    div { class: "mt-8 flex justify-end",
-                        button {
-                            class: "px-6 py-2 rounded-lg bg-[var(--primary)] text-[var(--on-primary)] font-medium hover:bg-[var(--surface-tint)] transition-colors",
-                            "Save Changes"
                         }
                     }
                 }
