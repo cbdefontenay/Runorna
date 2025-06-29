@@ -61,8 +61,8 @@ pub fn SettingsPage() -> Element {
             div { class: "max-w-3xl mx-auto px-6 py-12",
                 div { class: "bg-[var(--surface)] rounded-xl shadow-lg p-8",
                     div { class: "flex items-center justify-between mb-8",
-                        h1 { class: "text-3xl font-bold text-[var(--primary)]", 
-                            "Settings" 
+                        h1 { class: "text-3xl font-bold text-[var(--primary)]",
+                            "Settings"
                         }
                         div { class: "flex items-center space-x-4",
                             span { class: "text-[var(--on-surface-variant)]",
@@ -81,7 +81,7 @@ pub fn SettingsPage() -> Element {
                                     "bg-[var(--outline-variant)]"
                                 },
                                 span { class: "sr-only", "Toggle dark mode" }
-                                span { 
+                                span {
                                     class: "inline-block h-4 w-4 transform rounded-full bg-white transition-transform",
                                     class: if dark_mode() {
                                         "translate-x-6"
@@ -95,8 +95,8 @@ pub fn SettingsPage() -> Element {
 
                     div { class: "space-y-6",
                         div { class: "border-t border-[var(--outline-variant)] pt-6",
-                            h2 { class: "text-xl font-semibold text-[var(--on-surface)] mb-4", 
-                                "Appearance" 
+                            h2 { class: "text-xl font-semibold text-[var(--on-surface)] mb-4",
+                                "Appearance"
                             }
                             div { class: "grid grid-cols-2 gap-4",
                                 button {
@@ -129,8 +129,8 @@ pub fn SettingsPage() -> Element {
                         }
 
                         div { class: "border-t border-[var(--outline-variant)] pt-6",
-                            h2 { class: "text-xl font-semibold text-[var(--on-surface)] mb-4", 
-                                "Account Settings" 
+                            h2 { class: "text-xl font-semibold text-[var(--on-surface)] mb-4",
+                                "Account Settings"
                             }
                             div { class: "space-y-4",
                                 div { class: "flex justify-between items-center",
@@ -146,7 +146,7 @@ pub fn SettingsPage() -> Element {
                     }
 
                     div { class: "mt-8 flex justify-end",
-                        button { 
+                        button {
                             class: "px-6 py-2 rounded-lg bg-[var(--primary)] text-[var(--on-primary)] font-medium hover:bg-[var(--surface-tint)] transition-colors",
                             "Save Changes"
                         }

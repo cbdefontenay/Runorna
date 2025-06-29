@@ -31,6 +31,7 @@ thread_local! {
                 theme_name TEXT NOT NULL,
                 date_created DATETIME NOT NULL
             );"
+
         ).unwrap();
         conn
     };
@@ -251,4 +252,17 @@ pub async fn load_theme_preference() -> Result<String, ServerFnError> {
 
         }
     })
+}
+
+#[server]
+pub async fn save_language_preference(language_code: String) -> Result<(), ServerFnError> {
+    let now = chrono::Local::now().to_rfc3339();
+    DB.with(|conn| {
+        conn.execute("DELETE FROM language_preference", [])?; // Only keep the latest
+        conn.execute(
+            "INSERT INTO language_preference (language_code, date_created) VALUES (?1, ?2)",
+            (&language_code, &now),
+        )
+    })?;
+    Ok(())
 }

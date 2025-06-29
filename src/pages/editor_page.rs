@@ -212,8 +212,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
                     }
                 }
             }
-        
-        // footer { class: "w-full bg-[var(--surface-container-high)] border-t border-[var(--outline-variant)] px-4 sm:px-8 py-2",
+                // footer { class: "w-full bg-[var(--surface-container-high)] border-t border-[var(--outline-variant)] px-4 sm:px-8 py-2",
         //     div { class: "max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs text-[var(--on-surface-variant)] gap-2",
         //         div { "Codeor v1.0" }
         //         div { class: "flex flex-wrap gap-2 sm:gap-4 justify-center",
