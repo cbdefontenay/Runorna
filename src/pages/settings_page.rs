@@ -61,9 +61,7 @@ pub fn SettingsPage() -> Element {
             div { class: "max-w-3xl mx-auto px-6 py-12",
                 div { class: "bg-[var(--surface)] rounded-xl shadow-lg p-8",
                     div { class: "flex items-center justify-between mb-8",
-                        h1 { class: "text-3xl font-bold text-[var(--primary)]",
-                            "Settings"
-                        }
+                        h1 { class: "text-3xl font-bold text-[var(--primary)]", "Settings" }
                         div { class: "flex items-center space-x-4",
                             span { class: "text-[var(--on-surface-variant)]",
                                 if dark_mode() {
@@ -75,19 +73,11 @@ pub fn SettingsPage() -> Element {
                             button {
                                 onclick: toggle_dark_mode,
                                 class: "relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2",
-                                class: if dark_mode() {
-                                    "bg-[var(--primary)]"
-                                } else {
-                                    "bg-[var(--outline-variant)]"
-                                },
+                                class: if dark_mode() { "bg-[var(--primary)]" } else { "bg-[var(--outline-variant)]" },
                                 span { class: "sr-only", "Toggle dark mode" }
                                 span {
                                     class: "inline-block h-4 w-4 transform rounded-full bg-white transition-transform",
-                                    class: if dark_mode() {
-                                        "translate-x-6"
-                                    } else {
-                                        "translate-x-1"
-                                    }
+                                    class: if dark_mode() { "translate-x-6" } else { "translate-x-1" },
                                 }
                             }
                         }
@@ -102,11 +92,7 @@ pub fn SettingsPage() -> Element {
                                 button {
                                     onclick: toggle_light_mode,
                                     class: "rounded-lg p-4 border-2 transition-all",
-                                    class: if !dark_mode() {
-                                        "border-[var(--primary)] bg-[var(--primary-container)]"
-                                    } else {
-                                        "border-[var(--outline-variant)] hover:border-[var(--primary)]"
-                                    },
+                                    class: if !dark_mode() { "border-[var(--primary)] bg-[var(--primary-container)]" } else { "border-[var(--outline-variant)] hover:border-[var(--primary)]" },
                                     div { class: "flex flex-col items-center",
                                         div { class: "w-full h-24 mb-2 rounded bg-[var(--surface-bright)] border border-[var(--outline-variant)]" }
                                         span { "Light" }
@@ -115,11 +101,7 @@ pub fn SettingsPage() -> Element {
                                 button {
                                     onclick: toggle_dark_mode,
                                     class: "rounded-lg p-4 border-2 transition-all",
-                                    class: if dark_mode() {
-                                        "border-[var(--primary)] bg-[var(--primary-container)]"
-                                    } else {
-                                        "border-[var(--outline-variant)] hover:border-[var(--primary)]"
-                                    },
+                                    class: if dark_mode() { "border-[var(--primary)] bg-[var(--primary-container)]" } else { "border-[var(--outline-variant)] hover:border-[var(--primary)]" },
                                     div { class: "flex flex-col items-center",
                                         div { class: "w-full h-24 mb-2 rounded bg-[var(--surface-dim)] border border-[var(--outline-variant)]" }
                                         span { "Dark" }

@@ -28,7 +28,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
             let _ = save_theme_preference(new_theme).await;
         });
     };
-    
+
     use_effect(move || {
         spawn(async move {
             user_input_markdown.set("".to_string());
@@ -47,8 +47,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
             }
         });
     });
-
-
+    
     let save_note = move || {
         let content = user_input_markdown();
         let now = chrono::Local::now().to_rfc3339();
@@ -100,7 +99,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
         div { class: "min-h-screen bg-[var(--surface-container-lowest)] text-[var(--on-surface)] flex flex-col",
             header { class: "w-[90%] rounded-lg mt-5 mb-auto ml-auto mr-auto shadow-md bg-[var(--surface-container-high)] border-b border-[var(--outline-variant)] px-4 sm:px-8 py-4 sticky top-0 z-10",
                 div { class: "max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4",
-                    h1 { class: "text-xl sm:text-2xl font-semibold text-[var(--primary)]",
+                    h1 { class: "text-xl font-semibold text-[var(--primary)]",
                         "Editing: {folder_name()}"
                     }
 
@@ -212,16 +211,6 @@ pub fn EditorPage(folder_id: i32) -> Element {
                     }
                 }
             }
-                // footer { class: "w-full bg-[var(--surface-container-high)] border-t border-[var(--outline-variant)] px-4 sm:px-8 py-2",
-        //     div { class: "max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs text-[var(--on-surface-variant)] gap-2",
-        //         div { "Codeor v1.0" }
-        //         div { class: "flex flex-wrap gap-2 sm:gap-4 justify-center",
-        //             span { "Markdown supported" }
-        //             span { "Syntax highlighting" }
-        //             span { "Auto-save" }
-        //         }
-        //     }
-        // }
         }
 
         if is_saved_note() {
