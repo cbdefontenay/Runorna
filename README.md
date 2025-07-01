@@ -1,4 +1,4 @@
-# Codeor - Developer-Centric Note Taking
+# Runorna - Developer-Centric Note Taking
 
 A minimalist note-taking app designed specifically for developers to organize and manage code snippets with ease.
 
