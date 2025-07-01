@@ -1,5 +1,5 @@
 [package]
-name = "torex"
+name = "codeor"
 version = "0.1.0"
 authors = ["Cyprien de Fontenay"]
 edition = "2021"

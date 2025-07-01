@@ -56,4 +56,38 @@ html, body {
     scroll-behavior: smooth;
     box-sizing: border-box;
     background-color: var(--background);
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--surface-container-high);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--outline-variant);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--outline);
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--outline-variant) var(--surface-container-high);
+}
+
+/* For Edge (new versions) */
+@supports (-ms-ime-align: auto) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--outline-variant) var(--surface-container-high);
+    }
 }

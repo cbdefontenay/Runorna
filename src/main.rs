@@ -5,7 +5,7 @@ mod pages;
 mod syntax;
 
 use crate::components::NavbarComponent;
-use crate::pages::HomePage;
+use crate::pages::{FaqPage, HomePage};
 use crate::pages::SettingsPage;
 use dioxus::document::eval;
 use dioxus::prelude::*;
@@ -19,6 +19,8 @@ enum Route {
     Home {},
     #[route("/settings")]
     SettingsPage {},
+    #[route("/faq")]
+    Faq {},
 }
 
 const MAIN_CSS: Asset = asset!("/assets/main.css");
@@ -77,5 +79,12 @@ fn Home() -> Element {
 fn Settings() -> Element {
     rsx! {
         SettingsPage {}
+    }
+}
+
+#[component]
+fn Faq() -> Element {
+    rsx! {
+        FaqPage {}
     }
 }

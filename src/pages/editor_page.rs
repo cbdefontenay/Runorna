@@ -47,7 +47,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
             }
         });
     });
-    
+
     let save_note = move || {
         let content = user_input_markdown();
         let now = chrono::Local::now().to_rfc3339();
@@ -96,7 +96,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
         .to_string();
 
     rsx! {
-        div { class: "min-h-screen bg-[var(--surface-container-lowest)] text-[var(--on-surface)] flex flex-col",
+        div { class: "select-text min-h-screen bg-[var(--surface-container-lowest)] text-[var(--on-surface)] flex flex-col",
             header { class: "w-[90%] rounded-lg mt-5 mb-auto ml-auto mr-auto shadow-md bg-[var(--surface-container-high)] border-b border-[var(--outline-variant)] px-4 sm:px-8 py-4 sticky top-0 z-10",
                 div { class: "max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4",
                     h1 { class: "text-xl font-semibold text-[var(--primary)]",
