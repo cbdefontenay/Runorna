@@ -1,4 +1,4 @@
-# Runorna - Developer-Centric Note Taking
+# Runorna - Code Note Taking Desktop App
 
 A minimalist note-taking app designed specifically for developers to organize and manage code snippets with ease.
 
