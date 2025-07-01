@@ -4,7 +4,7 @@ icon = ["ilogo.png"]
 [web.app]
 
 # HTML title tag content
-title = "Codeor"
+title = "Runorna"
 
 # include `assets` in web platform
 [web.resource]
@@ -22,7 +22,7 @@ script = []
 script = []
 
 [bundle]
-identifier = "com.codeor"
-publisher = "Codeor"
+identifier = "com.runorna"
+publisher = "Runorna"
 resources = ["assets", "src", "target"]
 icon = ["assets/logo.png"]

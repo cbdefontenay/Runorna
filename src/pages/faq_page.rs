@@ -9,14 +9,14 @@ pub fn FaqPage() -> Element {
 
             // FAQ Item 1
             AccordionComponent {
-                accordion_title: "What is Codeor?",
+                accordion_title: "What is Runorna?",
                 accordion_description: rsx! {
                     div {
                         p { class: "mb-2",
-                            "Codeor (from French \"Code\" and \"or\" meaning gold) is a lightweight application designed to help developers store and organize their code snippets with syntax highlighting using markdown syntax."
+                            "Runorna (from Old Norse \"Rún\" meaning \"rune\", \"wisdom\" or \"secret\" is a lightweight application designed to help developers store and organize their code snippets with syntax highlighting using markdown syntax."
                         }
                         p {
-                            "Built with Rust and the Dioxus framework, Codeor focuses on simplicity, performance, and a clean user experience."
+                            "Built with Rust and the Dioxus framework, Runorna focuses on simplicity, performance, and a clean user experience."
                         }
                     }
                 },
@@ -69,7 +69,7 @@ pub fn FaqPage() -> Element {
                 accordion_title: "What platforms are supported?",
                 accordion_description: rsx! {
                     div {
-                        p { class: "mb-2", "Codeor is currently available for:" }
+                        p { class: "mb-2", "Runorna is currently available for:" }
                         ul { class: "list-disc pl-5 space-y-1",
                             li { "Windows (64-bit)" }
                             li { "Linux (x86_64 and ARM)" }
@@ -84,19 +84,19 @@ pub fn FaqPage() -> Element {
                 accordion_title: "How can I contribute or suggest features?",
                 accordion_description: rsx! {
                     div {
-                        p { class: "mb-2", "Codeor is open source and welcomes community contributions:" }
+                        p { class: "mb-2", "Runorna is open source and welcomes community contributions:" }
                         ul { class: "list-disc pl-5 space-y-1",
                             li {
                                 strong { "GitHub: " }
                                 a {
-                                    href: "https://github.com/cbdefontenay/codeor",
+                                    href: "https://github.com/cbdefontenay/Runorna",
                                     class: "text-primary hover:underline",
-                                    "github.com/cbdefontenay/codeor"
+                                    "github.com/cbdefontenay/Runorna"
                                 }
                             }
                         }
                         p { class: "mt-2",
-                            "Please be aware that Codeor as it is now will not change a lot in the future, since I created it for my purposes only. But still feel free to make suggestions."
+                            "Please be aware that Runorna as it is now will not change a lot in the future, since I created it for my purposes only. But still feel free to make suggestions."
                         }
                     }
                 },
@@ -104,10 +104,10 @@ pub fn FaqPage() -> Element {
 
             // FAQ Item 6
             AccordionComponent {
-                accordion_title: "What makes Codeor different from other snippet managers?",
+                accordion_title: "What makes Runorna different from other snippet managers?",
                 accordion_description: rsx! {
                     div {
-                        p { class: "mb-2", "Codeor stands out by:" }
+                        p { class: "mb-2", "Runorna stands out by:" }
                         ul { class: "list-disc pl-5 space-y-1",
                             li { "Being completely local and private by design" }
                             li { "Using Rust for performance and reliability and powered by Dioxus" }
