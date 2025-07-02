@@ -15,7 +15,7 @@ thread_local! {
     };
 }
 
-#[server]
+#[server(endpoint = "save_theme")]
 pub async fn save_theme(mode: String, is_dark_mode: bool) -> Result<(), ServerFnError> {
     DB.with(|f| {
         f.execute(
@@ -26,7 +26,7 @@ pub async fn save_theme(mode: String, is_dark_mode: bool) -> Result<(), ServerFn
     Ok(())
 }
 
-#[server]
+#[server(endpoint = "update_theme")]
 pub async fn update_theme(id: usize, mode: String, is_dark_mode: bool) -> Result<(), ServerFnError> {
     DB.with(|f| {
         f.execute(
@@ -37,7 +37,7 @@ pub async fn update_theme(id: usize, mode: String, is_dark_mode: bool) -> Result
     Ok(())
 }
 
-#[server]
+#[server(endpoint = "load_latest_theme")]
 pub async fn load_latest_theme() -> Result<(String, bool), ServerFnError> {
     let row = DB.with(|f| {
         f.query_row(

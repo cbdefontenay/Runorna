@@ -46,7 +46,7 @@ pub fn FaqPage() -> Element {
                     div {
                         p { class: "mb-2", "Here is a small list with their usage:" }
                         ul { class: "list-disc pl-5 space-y-1",
-                           li { "JavaScript: ```js" }
+                            li { "JavaScript: ```js" }
                             li { "C#: ```c#" }
                             li { "Rust: ```rust" }
                             li { "html: ```html" }
@@ -65,19 +65,19 @@ pub fn FaqPage() -> Element {
             }
 
             // FAQ Item 4
-            AccordionComponent {
-                accordion_title: "What platforms are supported?",
-                accordion_description: rsx! {
-                    div {
-                        p { class: "mb-2", "Runorna is currently available for:" }
-                        ul { class: "list-disc pl-5 space-y-1",
-                            li { "Windows (64-bit)" }
-                            li { "Linux (x86_64 and ARM)" }
-                        }
-                        p { class: "mt-2", "MacOS support is not currently available." }
-                    }
-                },
-            }
+            // AccordionComponent {
+            //     accordion_title: "What platforms are supported?",
+            //     accordion_description: rsx! {
+            //         div {
+            //             p { class: "mb-2", "Runorna is currently available for:" }
+            //             ul { class: "list-disc pl-5 space-y-1",
+            //                 li { "Windows (64-bit)" }
+            //                 li { "Linux (x86_64 and ARM)" }
+            //             }
+            //             p { class: "mt-2", "MacOS support is not currently available." }
+            //         }
+            //     },
+            // }
 
             // FAQ Item 5
             AccordionComponent {

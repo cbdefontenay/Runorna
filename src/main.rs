@@ -25,7 +25,7 @@ enum Route {
 
 const MAIN_CSS: Asset = asset!("/assets/main.css");
 const DARK_CSS: Asset = asset!("/assets/dark.css");
-const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
+const TAILWIND_CSS: Asset = asset!("assets/tailwind.css");
 // const ICON: Asset = asset!("icon.ico");
 
 fn main() {
