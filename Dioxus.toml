@@ -24,4 +24,5 @@ script = []
 [bundle]
 identifier = "com.runorna"
 publisher = "Runorna"
+#resources = ["src", "assets"]
 icon = ["assets/logo.png"]
