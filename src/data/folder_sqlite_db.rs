@@ -103,11 +103,30 @@ pub async fn delete_folder_recursive(id: i32) -> Result<(), ServerFnError> {
     Ok(())
 }
 
+fn assign_children_recursively(folder: &mut Folder, children_map: &mut std::collections::HashMap<i32, Vec<Folder>>) {
+
+    if let Some(mut children) = children_map.remove(&folder.id) {
+
+        children.sort_by(|a, b| a.name.cmp(&b.name));
+
+        for mut child in children {
+
+            assign_children_recursively(&mut child, children_map);
+
+            folder.children.push(child);
+
+        }
+
+    }
+
+}
+
+ 
+
 #[server(endpoint = "get_folders")]
 pub async fn get_folders() -> Result<Vec<Folder>, ServerFnError> {
     DB.with(|conn| {
-        let mut stmt =
-            conn.prepare("SELECT id, name, date_created, parent_id FROM folder ORDER BY name ASC")?;
+        let mut stmt = conn.prepare("SELECT id, name, date_created, parent_id FROM folder ORDER BY name ASC")?;
         let folder_rows = stmt
             .query_map([], |row| {
                 Ok(Folder {
@@ -120,33 +139,23 @@ pub async fn get_folders() -> Result<Vec<Folder>, ServerFnError> {
             })?
             .collect::<Result<Vec<Folder>, _>>()?;
 
-        let mut folders_map: HashMap<i32, Folder> =
-            folder_rows.into_iter().map(|f| (f.id, f)).collect();
+        if folder_rows.is_empty() {
+            return Ok(Vec::new());
+        }
+
+        let mut folders_map: std::collections::HashMap<i32, Folder> = folder_rows
+            .into_iter()
+            .map(|f| (f.id, f))
+            .collect();
 
         let mut root_folders: Vec<Folder> = Vec::new();
-        let mut temp_children_map: HashMap<i32, Vec<Folder>> = HashMap::new();
+        let mut temp_children_map: std::collections::HashMap<i32, Vec<Folder>> = std::collections::HashMap::new();
 
         for (_, folder) in folders_map.drain() {
             if let Some(parent_id) = folder.parent_id {
-                temp_children_map
-                    .entry(parent_id)
-                    .or_insert_with(Vec::new)
-                    .push(folder);
+                temp_children_map.entry(parent_id).or_insert_with(Vec::new).push(folder);
             } else {
                 root_folders.push(folder);
-            }
-        }
-
-        fn assign_children_recursively(
-            folder: &mut Folder,
-            children_map: &mut HashMap<i32, Vec<Folder>>,
-        ) {
-            if let Some(mut children) = children_map.remove(&folder.id) {
-                children.sort_by(|a, b| a.name.cmp(&b.name));
-                for mut child in children {
-                    assign_children_recursively(&mut child, children_map);
-                    folder.children.push(child);
-                }
             }
         }
 
@@ -155,20 +164,12 @@ pub async fn get_folders() -> Result<Vec<Folder>, ServerFnError> {
             assign_children_recursively(folder, &mut temp_children_map);
         }
 
-        for (_, mut orphaned_children) in temp_children_map {
-            root_folders.extend(orphaned_children.into_iter());
+        // Attach any orphaned children
+        for (_, orphaned) in temp_children_map {
+            root_folders.extend(orphaned.into_iter());
         }
-
         Ok(root_folders)
     })
-}
-
-// Helper to sort children recursively
-fn sort_folders_recursively(folder: &mut Folder) {
-    folder.children.sort_by(|a, b| a.name.cmp(&b.name));
-    for child in folder.children.iter_mut() {
-        sort_folders_recursively(child);
-    }
 }
 
 #[server(endpoint = "save_note")]
