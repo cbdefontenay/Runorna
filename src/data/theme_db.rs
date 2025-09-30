@@ -1,6 +1,5 @@
-use dioxus::prelude::*;
+use anyhow::{Result, Context};
 
-#[cfg(feature = "server")]
 thread_local! {
     pub static DB: rusqlite::Connection = {
         let conn = rusqlite::Connection::open("theme.db").expect("Failed to open database");
@@ -15,30 +14,29 @@ thread_local! {
     };
 }
 
-#[server(endpoint = "save_theme")]
-pub async fn save_theme(mode: String, is_dark_mode: bool) -> Result<(), ServerFnError> {
+pub async fn save_theme(mode: String, is_dark_mode: bool) -> Result<()> {
     DB.with(|f| {
         f.execute(
             "INSERT INTO theme (mode, is_dark_mode) VALUES (?1, ?2)",
             (&mode, &is_dark_mode),
         )
+            .context("Failed to save theme")
     })?;
     Ok(())
 }
 
-#[server(endpoint = "update_theme")]
-pub async fn update_theme(id: usize, mode: String, is_dark_mode: bool) -> Result<(), ServerFnError> {
+pub async fn update_theme(id: usize, mode: String, is_dark_mode: bool) -> Result<()> {
     DB.with(|f| {
         f.execute(
             "UPDATE theme SET mode = ?1, is_dark_mode = ?2 WHERE id = ?3",
             (&mode, &is_dark_mode, &id),
         )
+            .context("Failed to update theme")
     })?;
     Ok(())
 }
 
-#[server(endpoint = "load_latest_theme")]
-pub async fn load_latest_theme() -> Result<(String, bool), ServerFnError> {
+pub async fn load_latest_theme() -> Result<(String, bool)> {
     let row = DB.with(|f| {
         f.query_row(
             "SELECT mode, is_dark_mode FROM theme ORDER BY id DESC LIMIT 1",
@@ -49,6 +47,8 @@ pub async fn load_latest_theme() -> Result<(String, bool), ServerFnError> {
                 Ok((mode, is_dark_mode))
             },
         )
+            .context("Failed to load latest theme")
     })?;
     Ok(row)
 }
+

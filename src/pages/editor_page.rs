@@ -1,9 +1,9 @@
+use std::thread::sleep;
 use crate::components::ButtonComponent;
 use crate::data::{get_folder_name, get_notes, load_theme_preference, save_note, save_theme_preference, update_note, Note};
 use crate::syntax::markdown_to_html;
 use ammonia::{Builder, UrlRelative};
 use dioxus::prelude::*;
-use tokio::time::sleep;
 
 #[component]
 pub fn EditorPage(folder_id: i32) -> Element {
@@ -63,7 +63,7 @@ pub fn EditorPage(folder_id: i32) -> Element {
                 Ok(_) => {
                     is_saved_note.set(true);
                     spawn(async move {
-                        sleep(std::time::Duration::from_secs(3)).await;
+                        sleep(std::time::Duration::from_secs(3));
                         is_saved_note.set(false);
                     });
 

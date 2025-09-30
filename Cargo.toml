@@ -5,31 +5,18 @@ authors = ["Cyprien de Fontenay"]
 edition = "2021"
 
 [dependencies]
-ammonia = "4.1.0"
-dioxus = { version = "0.7.0-alpha.2", features = ["router", "fullstack"] }
+ammonia = "4.1.2"
+dioxus = { version = "0.7.0-rc.0", features = ["router"] }
 pulldown-cmark = "0.13.0"
-syntect = "5.2.0"
-rusqlite = { version = "0.36.0", features = ["bundled", "unlock_notify"], optional = true }
-chrono = "0.4.41"
-log = "0.4.27"
-serde = { version = "1.0.219", features = ["derive"] }
-tokio = "1.46.0"
+syntect = "5.3.0"
+rusqlite = { version = "0.37.0", features = ["bundled", "unlock_notify"] }
+chrono = "0.4.42"
+log = "0.4.28"
+serde = { version = "1.0.228", features = ["derive"] }
+tokio = "1.47.1"
+anyhow = "1.0.100"
+wasm-bindgen = "0.2.104"
 
 [features]
-default = ["desktop", "server"]
-web = ["dioxus/web"]
+default = ["dioxus/desktop"]
 desktop = ["dioxus/desktop"]
-mobile = ["dioxus/mobile"]
-server = ["dioxus/server", "dep:rusqlite"]
-
-[profile]
-
-[profile.wasm-dev]
-inherits = "dev"
-opt-level = 1
-
-[profile.server-dev]
-inherits = "dev"
-
-[profile.android-dev]
-inherits = "dev"

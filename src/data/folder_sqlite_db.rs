@@ -1,15 +1,11 @@
-use dioxus::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
-use std::collections::HashMap;
-use ServerFnError::ServerError;
+use anyhow::{Result, Context};
 
-#[cfg(feature = "server")]
 thread_local! {
     static DELETE_COUNTER: RefCell<u32> = RefCell::new(0);
 }
 
-#[cfg(feature = "server")]
 thread_local! {
     pub static DB: rusqlite::Connection = {
         let conn = rusqlite::Connection::open("folder.db").expect("Failed to open database");
@@ -57,36 +53,37 @@ pub struct Folder {
     pub children: Vec<Folder>,
 }
 
-#[server(endpoint = "save_folder")]
 pub async fn save_folder(
     name: String,
     date_created: String,
     parent_id: Option<i32>,
-) -> Result<(), ServerFnError> {
+) -> Result<()> {
     DB.with(|f| {
         f.execute(
             "INSERT INTO folder (name, date_created, parent_id) VALUES (?1, ?2, ?3)",
             (&name, &date_created, &parent_id),
         )
+            .context("Failed to save folder")
     })?;
     Ok(())
 }
 
-#[server(endpoint = "update_folder_name")]
-pub async fn update_folder_name(id: i32, new_name: String) -> Result<(), ServerFnError> {
+pub async fn update_folder_name(id: i32, new_name: String) -> Result<()> {
     DB.with(|f| {
         f.execute(
             "UPDATE folder SET name = ?1 WHERE id = ?2",
             (&new_name, &id),
         )
+            .context("Failed to update folder name")
     })?;
     Ok(())
 }
 
-#[server(endpoint = "delete_folder_recursive")]
-pub async fn delete_folder_recursive(id: i32) -> Result<(), ServerFnError> {
-    let deleted_count =
-        DB.with(|conn| conn.execute("DELETE FROM folder WHERE id = ?1 OR parent_id = ?1", [&id]))?;
+pub async fn delete_folder_recursive(id: i32) -> Result<()> {
+    let deleted_count = DB.with(|conn| {
+        conn.execute("DELETE FROM folder WHERE id = ?1 OR parent_id = ?1", [&id])
+            .context("Failed to delete folder")
+    })?;
 
     DELETE_COUNTER.with(|counter| {
         let mut count = counter.borrow_mut();
@@ -104,29 +101,21 @@ pub async fn delete_folder_recursive(id: i32) -> Result<(), ServerFnError> {
 }
 
 fn assign_children_recursively(folder: &mut Folder, children_map: &mut std::collections::HashMap<i32, Vec<Folder>>) {
-
     if let Some(mut children) = children_map.remove(&folder.id) {
-
         children.sort_by(|a, b| a.name.cmp(&b.name));
 
         for mut child in children {
-
             assign_children_recursively(&mut child, children_map);
-
             folder.children.push(child);
-
         }
-
     }
-
 }
 
- 
-
-#[server(endpoint = "get_folders")]
-pub async fn get_folders() -> Result<Vec<Folder>, ServerFnError> {
+pub async fn get_folders() -> Result<Vec<Folder>> {
     DB.with(|conn| {
-        let mut stmt = conn.prepare("SELECT id, name, date_created, parent_id FROM folder ORDER BY name ASC")?;
+        let mut stmt = conn.prepare("SELECT id, name, date_created, parent_id FROM folder ORDER BY name ASC")
+            .context("Failed to prepare folders query")?;
+
         let folder_rows = stmt
             .query_map([], |row| {
                 Ok(Folder {
@@ -137,7 +126,8 @@ pub async fn get_folders() -> Result<Vec<Folder>, ServerFnError> {
                     children: Vec::new(),
                 })
             })?
-            .collect::<Result<Vec<Folder>, _>>()?;
+            .collect::<Result<Vec<Folder>, _>>()
+            .context("Failed to collect folder rows")?;
 
         if folder_rows.is_empty() {
             return Ok(Vec::new());
@@ -172,27 +162,27 @@ pub async fn get_folders() -> Result<Vec<Folder>, ServerFnError> {
     })
 }
 
-#[server(endpoint = "save_note")]
 pub async fn save_note(
     content: String,
     date_created: String,
     folder_id: i32,
-) -> Result<(), ServerFnError> {
+) -> Result<()> {
     DB.with(|conn| {
         conn.execute(
             "INSERT INTO note (content, date_created, folder_id) VALUES (?1, ?2, ?3)",
             (&content, &date_created, &folder_id),
         )
+            .context("Failed to save note")
     })?;
     Ok(())
 }
 
-#[server(endpoint = "get_notes")]
-pub async fn get_notes(folder_id: i32) -> Result<Vec<Note>, ServerFnError> {
+pub async fn get_notes(folder_id: i32) -> Result<Vec<Note>> {
     DB.with(|conn| {
         let mut stmt = conn.prepare(
             "SELECT id, content, date_created, folder_id FROM note WHERE folder_id = ?1 ORDER BY date_created DESC"
-        )?;
+        )
+            .context("Failed to prepare notes query")?;
 
         let notes = stmt
             .query_map([folder_id], |row| {
@@ -203,54 +193,54 @@ pub async fn get_notes(folder_id: i32) -> Result<Vec<Note>, ServerFnError> {
                     folder_id: row.get(3)?,
                 })
             })?
-            .collect::<Result<Vec<Note>, _>>()?;
+            .collect::<Result<Vec<Note>, _>>()
+            .context("Failed to collect note rows")?;
 
         Ok(notes)
     })
 }
 
-#[server(endpoint = "update_note")]
 pub async fn update_note(
     id: i32,
     content: String,
     date_updated: String,
-) -> Result<(), ServerFnError> {
+) -> Result<()> {
     DB.with(|conn| {
         conn.execute(
             "UPDATE note SET content = ?1, date_created = ?2 WHERE id = ?3",
             (&content, &date_updated, &id),
         )
+            .context("Failed to update note")
     })?;
     Ok(())
 }
 
-#[server(endpoint = "get_folder_name")]
-pub async fn get_folder_name(folder_id: i32) -> Result<String, ServerFnError> {
+pub async fn get_folder_name(folder_id: i32) -> Result<String> {
     DB.with(|conn| {
         conn.query_row(
             "SELECT name FROM folder WHERE id = ?1",
             [folder_id],
             |row| row.get(0),
         )
-        .map_err(|e| ServerError(e.to_string()))
+            .context("Failed to get folder name")
     })
 }
 
-#[server(endpoint = "save_theme_preference")]
-pub async fn save_theme_preference(theme_name: String) -> Result<(), ServerFnError> {
+pub async fn save_theme_preference(theme_name: String) -> Result<()> {
     let now = chrono::Local::now().to_rfc3339();
     DB.with(|conn| {
-        conn.execute("DELETE FROM theme_preference", [])?;
+        conn.execute("DELETE FROM theme_preference", [])
+            .context("Failed to clear existing theme preferences")?;
         conn.execute(
             "INSERT INTO theme_preference (theme_name, date_created) VALUES (?1, ?2)",
             (&theme_name, &now),
         )
+            .context("Failed to save theme preference")
     })?;
     Ok(())
 }
 
-#[server(endpoint = "load_theme_preference")]
-pub async fn load_theme_preference() -> Result<String, ServerFnError> {
+pub async fn load_theme_preference() -> Result<String> {
     DB.with(|conn| {
         match conn.query_row(
             "SELECT theme_name FROM theme_preference ORDER BY date_created DESC LIMIT 1",
@@ -263,7 +253,7 @@ pub async fn load_theme_preference() -> Result<String, ServerFnError> {
                     // Return default theme if no preference exists
                     Ok("base16-eighties.dark".to_string())
                 } else {
-                    Err(ServerError(e.to_string()))
+                    Err(anyhow::Error::new(e).context("Failed to load theme preference"))
                 }
             }
         }
